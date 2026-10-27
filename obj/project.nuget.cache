@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qeh4W68ckU4=",
+  "dgSpecHash": "FA6Ta5EDUeE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\2doProyecto\\DatosPersonalesApi.csproj",
+  "projectFilePath": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\DatosPersonalesApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\isael\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\isael\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

@@ -1,0 +1,38 @@
+@DatosPersonalesApi_HostAddress = http://localhost:5236
+
+### Obtener todos los cursos
+GET {{DatosPersonalesApi_HostAddress}}/api/cursos
+Accept: application/json
+
+### Obtener un curso por ID
+GET {{DatosPersonalesApi_HostAddress}}/api/cursos/1
+Accept: application/json
+
+### Crear un curso
+POST {{DatosPersonalesApi_HostAddress}}/api/cursos
+Content-Type: application/json
+
+{
+  "codigo": "DIS301",
+  "nombre": "Diseño web",
+  "area": "Informática",
+  "horas": 42,
+  "cupoMaximo": 28,
+  "fechaInicio": "2026-10-05"
+}
+
+### Actualizar un curso
+PUT {{DatosPersonalesApi_HostAddress}}/api/cursos/1
+Content-Type: application/json
+
+{
+  "codigo": "INF101",
+  "nombre": "Introducción a la programación actualizada",
+  "area": "Informática",
+  "horas": 50,
+  "cupoMaximo": 32,
+  "fechaInicio": "2026-10-12"
+}
+
+### Eliminar un curso
+DELETE {{DatosPersonalesApi_HostAddress}}/api/cursos/1

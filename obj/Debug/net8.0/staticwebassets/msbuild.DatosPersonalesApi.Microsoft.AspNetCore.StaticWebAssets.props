@@ -12,11 +12,29 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>u8yj3czv2e</Fingerprint>
-      <Integrity>Hrftn2x49isFyxMfxVVUFgQzPHEZI4wZHxmvPwLOKz8=</Integrity>
+      <Fingerprint>x4hqo2dbtq</Fingerprint>
+      <Integrity>vzb7cIzSjV38oHYQ0jS1cLWuKroE12n6G1W43cA3ROg=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\app.js'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\cursos.html'))">
+      <SourceType>Package</SourceType>
+      <SourceId>DatosPersonalesApi</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/DatosPersonalesApi</BasePath>
+      <RelativePath>cursos.html</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>trbdj91tzx</Fingerprint>
+      <Integrity>J3y80KyaoBb2C+V44MokUoGJ9I+E0eqJsU5IbkY0mvg=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\cursos.html'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))">
       <SourceType>Package</SourceType>
@@ -30,8 +48,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>x3p7tt7nrh</Fingerprint>
-      <Integrity>I4SOSqCPzDr6td78AsAmZYZGkH3gcIML1RGbThGJ0yo=</Integrity>
+      <Fingerprint>bg22xmspz5</Fingerprint>
+      <Integrity>61H6vxS8GTBQTXwVc7RJJ+M83M0UhTIfnL2bwlvHjD4=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</OriginalItemSpec>
@@ -48,8 +66,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>q63hept0vj</Fingerprint>
-      <Integrity>njMDVMqcnEjv1CVH/NYyJPjMhfNM0by3FvHH0jtRTKo=</Integrity>
+      <Fingerprint>q12vw6ppoe</Fingerprint>
+      <Integrity>HuSm9gHRVEE41EsFEotVpk57s+jj/GcS4mlLOicOMX8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\mascotas.html'))</OriginalItemSpec>
@@ -66,8 +84,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>7t72wqc3x7</Fingerprint>
-      <Integrity>9SNJKhD33B3+t/KS9NRFjp6j7+zafhaWAD8Z04SKvMo=</Integrity>
+      <Fingerprint>nfn0cqxn5h</Fingerprint>
+      <Integrity>o3q6tg9ElzVGAY3iyHWYwUWO0+3P50ceym2Cu6HoaMY=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\styles.css'))</OriginalItemSpec>
@@ -84,8 +102,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>68x1xmz52a</Fingerprint>
-      <Integrity>ilhWQscK9OnCduQp+MM7dyf8R5WtcyeKdOCgSBeSzNg=</Integrity>
+      <Fingerprint>6xc8n2tgku</Fingerprint>
+      <Integrity>aoItPYQL9iUe8jw1ZVsxGEdB69UjysoWsVF2oATbvPY=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\sumadora.html'))</OriginalItemSpec>

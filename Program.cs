@@ -1,9 +1,12 @@
+using DatosPersonalesApi.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<CursoService>();
 
 var app = builder.Build();
 

@@ -1,23 +1,27 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\2doProyecto\\wwwroot\\app.js",
+      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\wwwroot\\app.js",
       "PackagePath": "staticwebassets\\app.js"
     },
     {
-      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\2doProyecto\\wwwroot\\index.html",
+      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\wwwroot\\cursos.html",
+      "PackagePath": "staticwebassets\\cursos.html"
+    },
+    {
+      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\2doProyecto\\wwwroot\\mascotas.html",
+      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\wwwroot\\mascotas.html",
       "PackagePath": "staticwebassets\\mascotas.html"
     },
     {
-      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\2doProyecto\\wwwroot\\styles.css",
+      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\wwwroot\\styles.css",
       "PackagePath": "staticwebassets\\styles.css"
     },
     {
-      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\2doProyecto\\wwwroot\\sumadora.html",
+      "Id": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\wwwroot\\sumadora.html",
       "PackagePath": "staticwebassets\\sumadora.html"
     },
     {

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cursos</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="brand" href="/">Mi información</a>
+        <nav class="main-nav" aria-label="Navegación principal">
+            <a class="nav-link" href="/">Datos personales</a>
+            <a class="nav-link" href="/mascotas.html">Mascotas</a>
+            <a class="nav-link" href="/sumadora.html">Sumadora</a>
+            <a class="nav-link is-active" href="/cursos.html" aria-current="page">Cursos</a>
+        </nav>
+    </header>
+
+    <main class="page-shell" data-page="cursos">
+        <h1>Cursos</h1>
+        <p class="page-description">Consulta y administra los cursos de la institución.</p>
+
+        <section class="data-panel" aria-label="Crear curso">
+            <form class="course-form" id="course-form">
+                <div class="course-field">
+                    <label for="codigo">Código</label>
+                    <input id="codigo" name="codigo" maxlength="30" required>
+                </div>
+                <div class="course-field">
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" name="nombre" maxlength="120" required>
+                </div>
+                <div class="course-field">
+                    <label for="area">Área</label>
+                    <input id="area" name="area" maxlength="80" required>
+                </div>
+                <div class="course-field">
+                    <label for="horas">Horas</label>
+                    <input id="horas" name="horas" type="number" min="1" required>
+                </div>
+                <div class="course-field">
+                    <label for="cupoMaximo">Cupo máximo</label>
+                    <input id="cupoMaximo" name="cupoMaximo" type="number" min="1" required>
+                </div>
+                <div class="course-field">
+                    <label for="fechaInicio">Fecha de inicio</label>
+                    <input id="fechaInicio" name="fechaInicio" type="date" required>
+                </div>
+                <button class="sum-button" type="submit">Crear curso</button>
+            </form>
+            <p class="sum-result" id="course-success" aria-live="polite" hidden></p>
+            <p class="sum-error" id="course-error" role="alert" hidden></p>
+        </section>
+
+        <h2 class="section-title">Cursos registrados</h2>
+        <section class="table-panel" aria-label="Lista de cursos">
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Área</th>
+                            <th scope="col">Horas</th>
+                            <th scope="col">Cupo máximo</th>
+                            <th scope="col">Fecha de inicio</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courses-table">
+                        <tr>
+                            <td class="table-placeholder" colspan="8">Cargando cursos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="load-status" id="courses-status" aria-live="polite">Conectando con la API...</p>
+            <p class="sum-error" id="courses-error" role="alert" hidden></p>
+        </section>
+    </main>
+</body>
+
+</html>

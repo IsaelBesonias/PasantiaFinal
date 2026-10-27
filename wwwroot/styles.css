@@ -194,6 +194,59 @@ tbody tr:last-child td {
     gap: 16px;
 }
 
+.course-form {
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.course-field {
+    display: grid;
+    gap: 6px;
+}
+
+.course-field label {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.course-field input {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 10px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font: inherit;
+    font-size: 16px;
+}
+
+.course-form .sum-button {
+    grid-column: 1 / -1;
+}
+
+.section-title {
+    margin: 28px 0 12px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.course-delete-button {
+    padding: 7px 10px;
+    color: var(--error);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font: inherit;
+    cursor: pointer;
+}
+
+.course-delete-button:hover {
+    background: var(--error-background);
+}
+
 .sum-field {
     display: grid;
     gap: 6px;
@@ -311,6 +364,15 @@ tbody tr:last-child td {
 
     .sum-form {
         padding: 16px;
+    }
+
+    .course-form {
+        padding: 16px;
+        grid-template-columns: 1fr;
+    }
+
+    .course-form .sum-button {
+        grid-column: auto;
     }
 
     .error-message {

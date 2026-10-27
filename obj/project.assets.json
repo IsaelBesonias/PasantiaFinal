@@ -433,11 +433,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\2doProyecto\\DatosPersonalesApi.csproj",
+      "projectUniqueName": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\DatosPersonalesApi.csproj",
       "projectName": "DatosPersonalesApi",
-      "projectPath": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\2doProyecto\\DatosPersonalesApi.csproj",
+      "projectPath": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\DatosPersonalesApi.csproj",
       "packagesPath": "C:\\Users\\isael\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\2doProyecto\\obj\\",
+      "outputPath": "C:\\Users\\isael\\OneDrive\\Documentos\\Itla\\Pasantia\\ProyectoFinal\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\isael\\AppData\\Roaming\\NuGet\\NuGet.Config"
