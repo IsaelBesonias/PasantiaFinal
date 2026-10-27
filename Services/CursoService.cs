@@ -1,111 +1,63 @@
+using DatosPersonalesApi.Data;
 using DatosPersonalesApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatosPersonalesApi.Services;
 
-public sealed class CursoService
+public sealed class CursoService(CursoDbContext dbContext)
 {
-    private readonly List<Curso> _cursos =
-    [
-        new Curso
-        {
-            Id = 1,
-            Codigo = "INF101",
-            Nombre = "Introducción a la programación",
-            Area = "Informática",
-            Horas = 48,
-            CupoMaximo = 30,
-            FechaInicio = new DateOnly(2026, 9, 7)
-        },
-        new Curso
-        {
-            Id = 2,
-            Codigo = "ADM201",
-            Nombre = "Administración de empresas",
-            Area = "Negocios",
-            Horas = 36,
-            CupoMaximo = 25,
-            FechaInicio = new DateOnly(2026, 9, 14)
-        },
-        new Curso
-        {
-            Id = 3,
-            Codigo = "MAT105",
-            Nombre = "Matemática básica",
-            Area = "Ciencias",
-            Horas = 40,
-            CupoMaximo = 35,
-            FechaInicio = new DateOnly(2026, 9, 21)
-        }
-    ];
-
-    private readonly object _lock = new();
-
-    public IReadOnlyList<Curso> GetAll()
+    public async Task<IReadOnlyList<Curso>> GetAllAsync(CancellationToken cancellationToken)
     {
-        lock (_lock)
-        {
-            return _cursos.Select(Copy).ToArray();
-        }
+        return await dbContext.Cursos
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 
-    public Curso? GetById(int id)
+    public Task<Curso?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        lock (_lock)
-        {
-            var curso = _cursos.Find(curso => curso.Id == id);
-            return curso is null ? null : Copy(curso);
-        }
+        return dbContext.Cursos
+            .AsNoTracking()
+            .FirstOrDefaultAsync(curso => curso.Id == id, cancellationToken);
     }
 
-    public Curso Create(Curso curso)
+    public async Task<Curso> CreateAsync(Curso curso, CancellationToken cancellationToken)
     {
-        lock (_lock)
-        {
-            var nuevoCurso = Copy(curso);
-            nuevoCurso.Id = _cursos.Count == 0 ? 1 : _cursos.Max(curso => curso.Id) + 1;
-            _cursos.Add(nuevoCurso);
-            return Copy(nuevoCurso);
-        }
+        dbContext.Cursos.Add(curso);
+        await dbContext.SaveChangesAsync(cancellationToken);
+        return curso;
     }
 
-    public Curso? Update(int id, Curso curso)
+    public async Task<Curso?> UpdateAsync(int id, Curso curso, CancellationToken cancellationToken)
     {
-        lock (_lock)
+        var existingCourse = await dbContext.Cursos
+            .FirstOrDefaultAsync(existingCourse => existingCourse.Id == id, cancellationToken);
+        if (existingCourse is null)
         {
-            var existingCourse = _cursos.Find(existingCourse => existingCourse.Id == id);
-            if (existingCourse is null)
-            {
-                return null;
-            }
-
-            existingCourse.Codigo = curso.Codigo;
-            existingCourse.Nombre = curso.Nombre;
-            existingCourse.Area = curso.Area;
-            existingCourse.Horas = curso.Horas;
-            existingCourse.CupoMaximo = curso.CupoMaximo;
-            existingCourse.FechaInicio = curso.FechaInicio;
-
-            return Copy(existingCourse);
+            return null;
         }
+
+        existingCourse.Codigo = curso.Codigo;
+        existingCourse.Nombre = curso.Nombre;
+        existingCourse.Area = curso.Area;
+        existingCourse.Horas = curso.Horas;
+        existingCourse.CupoMaximo = curso.CupoMaximo;
+        existingCourse.FechaInicio = curso.FechaInicio;
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+        return existingCourse;
     }
 
-    public bool Delete(int id)
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
     {
-        lock (_lock)
+        var curso = await dbContext.Cursos
+            .FirstOrDefaultAsync(curso => curso.Id == id, cancellationToken);
+        if (curso is null)
         {
-            var curso = _cursos.Find(curso => curso.Id == id);
-            return curso is not null && _cursos.Remove(curso);
+            return false;
         }
-    }
 
-    private static Curso Copy(Curso curso) => new()
-    {
-        Id = curso.Id,
-        Codigo = curso.Codigo,
-        Nombre = curso.Nombre,
-        Area = curso.Area,
-        Horas = curso.Horas,
-        CupoMaximo = curso.CupoMaximo,
-        FechaInicio = curso.FechaInicio
-    };
+        dbContext.Cursos.Remove(curso);
+        await dbContext.SaveChangesAsync(cancellationToken);
+        return true;
+    }
 }

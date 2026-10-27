@@ -9,42 +9,44 @@ namespace DatosPersonalesApi.Controllers;
 public class CursosController(CursoService cursoService, InscripcionService inscripcionService) : ControllerBase
 {
     [HttpGet]
-    public ActionResult<IReadOnlyList<Curso>> GetAll()
+    public async Task<ActionResult<IReadOnlyList<Curso>>> GetAll(CancellationToken cancellationToken)
     {
-        return Ok(cursoService.GetAll());
+        return Ok(await cursoService.GetAllAsync(cancellationToken));
     }
 
     [HttpGet("{id:int}")]
-    public ActionResult<Curso> GetById(int id)
+    public async Task<ActionResult<Curso>> GetById(int id, CancellationToken cancellationToken)
     {
-        var curso = cursoService.GetById(id);
+        var curso = await cursoService.GetByIdAsync(id, cancellationToken);
         return curso is null ? CourseNotFound() : Ok(curso);
     }
 
     [HttpPost]
-    public ActionResult<Curso> Create(Curso curso)
+    public async Task<ActionResult<Curso>> Create(Curso curso, CancellationToken cancellationToken)
     {
-        var nuevoCurso = cursoService.Create(curso);
+        var nuevoCurso = await cursoService.CreateAsync(curso, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = nuevoCurso.Id }, nuevoCurso);
     }
 
     [HttpPut("{id:int}")]
-    public ActionResult<Curso> Update(int id, Curso curso)
+    public async Task<ActionResult<Curso>> Update(int id, Curso curso, CancellationToken cancellationToken)
     {
-        var cursoActualizado = cursoService.Update(id, curso);
+        var cursoActualizado = await cursoService.UpdateAsync(id, curso, cancellationToken);
         return cursoActualizado is null ? CourseNotFound() : Ok(cursoActualizado);
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        return cursoService.Delete(id) ? NoContent() : CourseNotFound();
+        return await cursoService.DeleteAsync(id, cancellationToken) ? NoContent() : CourseNotFound();
     }
 
     [HttpGet("{id:int}/estudiantes")]
-    public ActionResult<IReadOnlyList<EstudianteInscritoResponse>> GetStudents(int id)
+    public async Task<ActionResult<IReadOnlyList<EstudianteInscritoResponse>>> GetStudents(
+        int id,
+        CancellationToken cancellationToken)
     {
-        var estudiantes = inscripcionService.GetEstudiantesDeCurso(id);
+        var estudiantes = await inscripcionService.GetEstudiantesDeCursoAsync(id, cancellationToken);
         return estudiantes is null
             ? CourseNotFound()
             : Ok(estudiantes);

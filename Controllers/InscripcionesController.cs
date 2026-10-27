@@ -9,9 +9,11 @@ namespace DatosPersonalesApi.Controllers;
 public class InscripcionesController(InscripcionService inscripcionService) : ControllerBase
 {
     [HttpPost]
-    public ActionResult<Inscripcion> Create(CrearInscripcionRequest request)
+    public async Task<ActionResult<Inscripcion>> Create(
+        CrearInscripcionRequest request,
+        CancellationToken cancellationToken)
     {
-        var resultado = inscripcionService.CreateInscripcion(request);
+        var resultado = await inscripcionService.CreateInscripcionAsync(request, cancellationToken);
         if (resultado.Inscripcion is not null)
         {
             return CreatedAtAction(

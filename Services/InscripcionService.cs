@@ -2,69 +2,43 @@ using DatosPersonalesApi.Models;
 
 namespace DatosPersonalesApi.Services;
 
-public sealed class InscripcionService(CursoService cursoService)
+public sealed class InscripcionService(CursoService cursoService, InscripcionStore store)
 {
-    private readonly List<Estudiante> _estudiantes =
-    [
-        new Estudiante
-        {
-            Id = 1,
-            Matricula = "2024-0001",
-            Nombre = "María Rodríguez",
-            Correo = "maria.rodriguez@institucion.edu"
-        },
-        new Estudiante
-        {
-            Id = 2,
-            Matricula = "2024-0002",
-            Nombre = "Juan Pérez",
-            Correo = "juan.perez@institucion.edu"
-        },
-        new Estudiante
-        {
-            Id = 3,
-            Matricula = "2024-0003",
-            Nombre = "Laura Gómez",
-            Correo = "laura.gomez@institucion.edu"
-        }
-    ];
-
-    private readonly List<Inscripcion> _inscripciones = [];
-    private readonly object _lock = new();
-
     public IReadOnlyList<Estudiante> GetEstudiantes()
     {
-        lock (_lock)
+        lock (store.SyncRoot)
         {
-            return _estudiantes.Select(CopiarEstudiante).ToArray();
+            return store.Estudiantes.Select(CopiarEstudiante).ToArray();
         }
     }
 
     public Estudiante CreateEstudiante(Estudiante estudiante)
     {
-        lock (_lock)
+        lock (store.SyncRoot)
         {
             var nuevoEstudiante = CopiarEstudiante(estudiante);
-            nuevoEstudiante.Id = _estudiantes.Count == 0 ? 1 : _estudiantes.Max(item => item.Id) + 1;
-            _estudiantes.Add(nuevoEstudiante);
+            nuevoEstudiante.Id = store.Estudiantes.Count == 0 ? 1 : store.Estudiantes.Max(item => item.Id) + 1;
+            store.Estudiantes.Add(nuevoEstudiante);
             return CopiarEstudiante(nuevoEstudiante);
         }
     }
 
-    public IReadOnlyList<EstudianteInscritoResponse>? GetEstudiantesDeCurso(int cursoId)
+    public async Task<IReadOnlyList<EstudianteInscritoResponse>?> GetEstudiantesDeCursoAsync(
+        int cursoId,
+        CancellationToken cancellationToken)
     {
-        lock (_lock)
+        if (await cursoService.GetByIdAsync(cursoId, cancellationToken) is null)
         {
-            if (cursoService.GetById(cursoId) is null)
-            {
-                return null;
-            }
+            return null;
+        }
 
-            return _inscripciones
+        lock (store.SyncRoot)
+        {
+            return store.Inscripciones
                 .Where(inscripcion => inscripcion.CursoId == cursoId)
                 .Select(inscripcion =>
                 {
-                    var estudiante = _estudiantes.Single(estudiante => estudiante.Id == inscripcion.EstudianteId);
+                    var estudiante = store.Estudiantes.Single(estudiante => estudiante.Id == inscripcion.EstudianteId);
                     return new EstudianteInscritoResponse(
                         inscripcion.Id,
                         estudiante.Id,
@@ -77,22 +51,24 @@ public sealed class InscripcionService(CursoService cursoService)
         }
     }
 
-    public ResultadoInscripcion CreateInscripcion(CrearInscripcionRequest request)
+    public async Task<ResultadoInscripcion> CreateInscripcionAsync(
+        CrearInscripcionRequest request,
+        CancellationToken cancellationToken)
     {
-        lock (_lock)
+        var curso = await cursoService.GetByIdAsync(request.CursoId, cancellationToken);
+        if (curso is null)
         {
-            var curso = cursoService.GetById(request.CursoId);
-            if (curso is null)
-            {
-                return new ResultadoInscripcion(null, "No existe un curso con el identificador indicado.", true);
-            }
+            return new ResultadoInscripcion(null, "No existe un curso con el identificador indicado.", true);
+        }
 
-            if (_estudiantes.All(estudiante => estudiante.Id != request.EstudianteId))
+        lock (store.SyncRoot)
+        {
+            if (store.Estudiantes.All(estudiante => estudiante.Id != request.EstudianteId))
             {
                 return new ResultadoInscripcion(null, "No existe un estudiante con el identificador indicado.", true);
             }
 
-            if (_inscripciones.Any(inscripcion =>
+            if (store.Inscripciones.Any(inscripcion =>
                     inscripcion.EstudianteId == request.EstudianteId
                     && inscripcion.CursoId == request.CursoId))
             {
@@ -102,7 +78,7 @@ public sealed class InscripcionService(CursoService cursoService)
                     false);
             }
 
-            var inscritosEnCurso = _inscripciones.Count(inscripcion => inscripcion.CursoId == request.CursoId);
+            var inscritosEnCurso = store.Inscripciones.Count(inscripcion => inscripcion.CursoId == request.CursoId);
             if (inscritosEnCurso >= curso.CupoMaximo)
             {
                 return new ResultadoInscripcion(
@@ -113,13 +89,13 @@ public sealed class InscripcionService(CursoService cursoService)
 
             var inscripcion = new Inscripcion
             {
-                Id = _inscripciones.Count == 0 ? 1 : _inscripciones.Max(item => item.Id) + 1,
+                Id = store.Inscripciones.Count == 0 ? 1 : store.Inscripciones.Max(item => item.Id) + 1,
                 EstudianteId = request.EstudianteId,
                 CursoId = request.CursoId,
                 Fecha = DateTimeOffset.UtcNow
             };
 
-            _inscripciones.Add(inscripcion);
+            store.Inscripciones.Add(inscripcion);
             return new ResultadoInscripcion(CopiarInscripcion(inscripcion), null, false);
         }
     }

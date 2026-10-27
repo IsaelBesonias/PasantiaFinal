@@ -1,6 +1,8 @@
+using DatosPersonalesApi.Data;
 using DatosPersonalesApi.Services;
 using DatosPersonalesApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,10 +36,19 @@ builder.Services
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<CursoService>();
-builder.Services.AddSingleton<InscripcionService>();
+builder.Services.AddDbContext<CursoDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("Cursos")));
+builder.Services.AddScoped<CursoService>();
+builder.Services.AddSingleton<InscripcionStore>();
+builder.Services.AddScoped<InscripcionService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<CursoDbContext>();
+    dbContext.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {

@@ -1,10 +1,10 @@
 @DatosPersonalesApi_HostAddress = http://localhost:5236
 
-### Obtener estudiantes disponibles para inscribir
+Obtener estudiantes disponibles para inscribir
 GET {{DatosPersonalesApi_HostAddress}}/api/estudiantes
 Accept: application/json
 
-### Crear un estudiante
+Crear un estudiante
 POST {{DatosPersonalesApi_HostAddress}}/api/estudiantes
 Content-Type: application/json
 
@@ -14,11 +14,11 @@ Content-Type: application/json
   "correo": "pedro.santos@institucion.edu"
 }
 
-### Obtener estudiantes inscritos en un curso
+Obtener estudiantes inscritos en un curso
 GET {{DatosPersonalesApi_HostAddress}}/api/cursos/1/estudiantes
 Accept: application/json
 
-### Inscribir al estudiante 1 en el curso 1
+Inscribir al estudiante 1 en el curso 1
 POST {{DatosPersonalesApi_HostAddress}}/api/inscripciones
 Content-Type: application/json
 
@@ -27,7 +27,7 @@ Content-Type: application/json
   "cursoId": 1
 }
 
-### Repetir la inscripción anterior (esperado: 400 Bad Request)
+Repetir la inscripción anterior (esperado: 400 Bad Request)
 POST {{DatosPersonalesApi_HostAddress}}/api/inscripciones
 Content-Type: application/json
 
@@ -36,7 +36,7 @@ Content-Type: application/json
   "cursoId": 1
 }
 
-### Inscribir a un estudiante inexistente (esperado: 404 Not Found)
+Inscribir a un estudiante inexistente (esperado: 404 Not Found)
 POST {{DatosPersonalesApi_HostAddress}}/api/inscripciones
 Content-Type: application/json
 
