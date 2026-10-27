@@ -1,14 +1,14 @@
 @DatosPersonalesApi_HostAddress = http://localhost:5236
 
-### Obtener todos los cursos
+ Obtener todos los cursos
 GET {{DatosPersonalesApi_HostAddress}}/api/cursos
 Accept: application/json
 
-### Obtener un curso por ID
+ Obtener un curso por ID
 GET {{DatosPersonalesApi_HostAddress}}/api/cursos/1
 Accept: application/json
 
-### Crear un curso
+ Crear un curso
 POST {{DatosPersonalesApi_HostAddress}}/api/cursos
 Content-Type: application/json
 
@@ -21,7 +21,7 @@ Content-Type: application/json
   "fechaInicio": "2026-10-05"
 }
 
-### Actualizar un curso
+ Actualizar un curso
 PUT {{DatosPersonalesApi_HostAddress}}/api/cursos/1
 Content-Type: application/json
 
@@ -34,5 +34,34 @@ Content-Type: application/json
   "fechaInicio": "2026-10-12"
 }
 
-### Eliminar un curso
+ Crear curso con datos inválidos (esperado: 400 Bad Request)
+POST {{DatosPersonalesApi_HostAddress}}/api/cursos
+Content-Type: application/json
+
+{
+  "codigo": "",
+  "nombre": "Curso inválido",
+  "area": "Informática",
+  "horas": 0,
+  "cupoMaximo": 28,
+  "fechaInicio": "2026-10-05"
+}
+
+ Actualizar un curso inexistente (esperado: 404 Not Found)
+PUT {{DatosPersonalesApi_HostAddress}}/api/cursos/9999
+Content-Type: application/json
+
+{
+  "codigo": "DIS301",
+  "nombre": "Diseño web",
+  "area": "Informática",
+  "horas": 42,
+  "cupoMaximo": 28,
+  "fechaInicio": "2026-10-05"
+}
+
+ Eliminar un curso
 DELETE {{DatosPersonalesApi_HostAddress}}/api/cursos/1
+
+ Eliminar un curso inexistente (esperado: 404 Not Found)
+DELETE {{DatosPersonalesApi_HostAddress}}/api/cursos/9999

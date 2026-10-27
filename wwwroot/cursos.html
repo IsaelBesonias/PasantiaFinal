@@ -25,7 +25,7 @@
         <p class="page-description">Consulta y administra los cursos de la institución.</p>
 
         <section class="data-panel" aria-label="Crear curso">
-            <form class="course-form" id="course-form">
+            <form class="course-form" id="course-form" novalidate>
                 <div class="course-field">
                     <label for="codigo">Código</label>
                     <input id="codigo" name="codigo" maxlength="30" required>
@@ -82,6 +82,41 @@
             <p class="load-status" id="courses-status" aria-live="polite">Conectando con la API...</p>
             <p class="sum-error" id="courses-error" role="alert" hidden></p>
         </section>
+
+        <dialog class="course-dialog" id="edit-course-dialog" aria-labelledby="edit-course-title">
+            <form class="course-form" id="edit-course-form" novalidate>
+                <h2 class="section-title" id="edit-course-title">Editar curso</h2>
+                <div class="course-field">
+                    <label for="edit-codigo">Código</label>
+                    <input id="edit-codigo" name="codigo" maxlength="30" required>
+                </div>
+                <div class="course-field">
+                    <label for="edit-nombre">Nombre</label>
+                    <input id="edit-nombre" name="nombre" maxlength="120" required>
+                </div>
+                <div class="course-field">
+                    <label for="edit-area">Área</label>
+                    <input id="edit-area" name="area" maxlength="80" required>
+                </div>
+                <div class="course-field">
+                    <label for="edit-horas">Horas</label>
+                    <input id="edit-horas" name="horas" type="number" min="1" required>
+                </div>
+                <div class="course-field">
+                    <label for="edit-cupoMaximo">Cupo máximo</label>
+                    <input id="edit-cupoMaximo" name="cupoMaximo" type="number" min="1" required>
+                </div>
+                <div class="course-field">
+                    <label for="edit-fechaInicio">Fecha de inicio</label>
+                    <input id="edit-fechaInicio" name="fechaInicio" type="date" required>
+                </div>
+                <p class="sum-error form-feedback" id="edit-course-error" role="alert" hidden></p>
+                <div class="dialog-actions">
+                    <button class="course-cancel-button" id="cancel-edit-course" type="button">Cancelar</button>
+                    <button class="sum-button" type="submit">Guardar cambios</button>
+                </div>
+            </form>
+        </dialog>
     </main>
 </body>
 

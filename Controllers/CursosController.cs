@@ -18,7 +18,7 @@ public class CursosController(CursoService cursoService) : ControllerBase
     public ActionResult<Curso> GetById(int id)
     {
         var curso = cursoService.GetById(id);
-        return curso is null ? NotFound() : Ok(curso);
+        return curso is null ? CourseNotFound() : Ok(curso);
     }
 
     [HttpPost]
@@ -32,12 +32,20 @@ public class CursosController(CursoService cursoService) : ControllerBase
     public ActionResult<Curso> Update(int id, Curso curso)
     {
         var cursoActualizado = cursoService.Update(id, curso);
-        return cursoActualizado is null ? NotFound() : Ok(cursoActualizado);
+        return cursoActualizado is null ? CourseNotFound() : Ok(cursoActualizado);
     }
 
     [HttpDelete("{id:int}")]
     public IActionResult Delete(int id)
     {
-        return cursoService.Delete(id) ? NoContent() : NotFound();
+        return cursoService.Delete(id) ? NoContent() : CourseNotFound();
     }
+
+    private static NotFoundObjectResult CourseNotFound() =>
+        new(new ProblemDetails
+        {
+            Status = StatusCodes.Status404NotFound,
+            Title = "Curso no encontrado.",
+            Detail = "No existe un curso con el identificador indicado."
+        });
 }

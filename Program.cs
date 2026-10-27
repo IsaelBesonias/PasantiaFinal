@@ -1,9 +1,36 @@
 using DatosPersonalesApi.Services;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState
+                .Where(entry => entry.Value?.Errors.Count > 0)
+                .ToDictionary(
+                    entry => entry.Key,
+                    entry => entry.Value!.Errors
+                        .Select(error => error.ErrorMessage.StartsWith("El campo ", StringComparison.OrdinalIgnoreCase)
+                            || error.ErrorMessage.StartsWith("La fecha de inicio ", StringComparison.OrdinalIgnoreCase)
+                                ? error.ErrorMessage
+                                : $"El valor ingresado para {GetSpanishFieldName(entry.Key)} no es válido.")
+                        .ToArray());
+
+            var problem = new ValidationProblemDetails(errors)
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = "La solicitud contiene errores de validación.",
+                Detail = "Corrige los campos indicados e inténtalo nuevamente."
+            };
+
+            return new BadRequestObjectResult(problem);
+        };
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CursoService>();
@@ -26,3 +53,24 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static string GetSpanishFieldName(string fieldName)
+{
+    var propertyName = fieldName.Split('.').Last();
+    if (string.IsNullOrWhiteSpace(propertyName) || propertyName == "$")
+    {
+        return "el cuerpo de la solicitud";
+    }
+
+    return propertyName.ToLowerInvariant() switch
+    {
+        "curso" => "el curso",
+        "codigo" => "el código",
+        "nombre" => "el nombre",
+        "area" => "el área",
+        "horas" => "las horas",
+        "cupomaximo" => "el cupo máximo",
+        "fechainicio" => "la fecha de inicio",
+        _ => "el campo"
+    };
+}

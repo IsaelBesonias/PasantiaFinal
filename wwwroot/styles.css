@@ -243,8 +243,59 @@ tbody tr:last-child td {
     cursor: pointer;
 }
 
+.course-edit-button,
+.course-cancel-button {
+    margin-right: 6px;
+    padding: 7px 10px;
+    color: var(--green);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font: inherit;
+    cursor: pointer;
+}
+
+.course-edit-button:hover,
+.course-cancel-button:hover {
+    background: var(--green-light);
+}
+
 .course-delete-button:hover {
     background: var(--error-background);
+}
+
+.course-dialog {
+    width: min(100% - 32px, 620px);
+    max-height: calc(100% - 32px);
+    padding: 0;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+}
+
+.course-dialog::backdrop {
+    background: rgb(0 0 0 / 40%);
+}
+
+.course-dialog .section-title {
+    grid-column: 1 / -1;
+    margin: 0;
+}
+
+.form-feedback {
+    grid-column: 1 / -1;
+}
+
+.dialog-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.dialog-actions .sum-button {
+    justify-self: auto;
 }
 
 .sum-field {
