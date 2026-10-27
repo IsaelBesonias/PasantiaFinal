@@ -223,6 +223,44 @@ tbody tr:last-child td {
     font-size: 16px;
 }
 
+.course-field select {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 10px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font: inherit;
+    font-size: 16px;
+}
+
+.enrollment-form {
+    padding: 20px 24px;
+    display: grid;
+    gap: 16px;
+}
+
+.capacity-info {
+    margin: 0;
+    padding: 12px 14px;
+    color: var(--green);
+    background: var(--green-light);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.enrollment-form .form-feedback {
+    padding: 12px 14px;
+    border: 0;
+}
+
+.enrollment-form .sum-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
 .course-form .sum-button {
     grid-column: 1 / -1;
 }
@@ -420,6 +458,10 @@ tbody tr:last-child td {
     .course-form {
         padding: 16px;
         grid-template-columns: 1fr;
+    }
+
+    .enrollment-form {
+        padding: 16px;
     }
 
     .course-form .sum-button {

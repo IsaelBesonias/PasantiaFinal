@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inscripciones</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="brand" href="/">Mi información</a>
+        <nav class="main-nav" aria-label="Navegación principal">
+            <a class="nav-link" href="/">Datos personales</a>
+            <a class="nav-link" href="/mascotas.html">Mascotas</a>
+            <a class="nav-link" href="/sumadora.html">Sumadora</a>
+            <a class="nav-link" href="/cursos.html">Cursos</a>
+            <a class="nav-link is-active" href="/inscripciones.html" aria-current="page">Inscripciones</a>
+        </nav>
+    </header>
+
+    <main class="page-shell" data-page="inscripciones">
+        <h1>Inscripciones</h1>
+        <p class="page-description">Inscribe estudiantes en cursos y consulta los cupos disponibles.</p>
+
+        <section class="data-panel" aria-label="Formulario de inscripción">
+            <form class="enrollment-form" id="enrollment-form" novalidate>
+                <div class="course-field">
+                    <label for="estudianteId">Estudiante</label>
+                    <select id="estudianteId" name="estudianteId" required>
+                        <option value="">Cargando estudiantes...</option>
+                    </select>
+                </div>
+                <div class="course-field">
+                    <label for="cursoId">Curso</label>
+                    <select id="cursoId" name="cursoId" required>
+                        <option value="">Cargando cursos...</option>
+                    </select>
+                </div>
+                <p class="capacity-info" id="capacity-info" aria-live="polite">Selecciona un curso para consultar sus cupos.</p>
+                <p class="sum-error form-feedback" id="already-enrolled" role="status" hidden>
+                    Este estudiante ya está inscrito en el curso seleccionado.
+                </p>
+                <button class="sum-button" id="enroll-button" type="submit" disabled>Inscribir estudiante</button>
+            </form>
+            <p class="sum-result" id="enrollment-success" aria-live="polite" hidden></p>
+            <p class="sum-error" id="enrollment-error" role="alert" hidden></p>
+            <p class="sum-error" id="enrollment-load-error" role="alert" hidden></p>
+        </section>
+    </main>
+</body>
+
+</html>

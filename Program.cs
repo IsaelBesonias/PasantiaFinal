@@ -1,4 +1,5 @@
 using DatosPersonalesApi.Services;
+using DatosPersonalesApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,7 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CursoService>();
+builder.Services.AddSingleton<InscripcionService>();
 
 var app = builder.Build();
 
@@ -71,6 +73,11 @@ static string GetSpanishFieldName(string fieldName)
         "horas" => "las horas",
         "cupomaximo" => "el cupo máximo",
         "fechainicio" => "la fecha de inicio",
+        "estudiante" => "el estudiante",
+        "matricula" => "la matrícula",
+        "correo" => "el correo electrónico",
+        "estudianteid" => "el identificador del estudiante",
+        "cursoid" => "el identificador del curso",
         _ => "el campo"
     };
 }

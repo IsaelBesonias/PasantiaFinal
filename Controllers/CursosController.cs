@@ -6,7 +6,7 @@ namespace DatosPersonalesApi.Controllers;
 
 [ApiController]
 [Route("api/cursos")]
-public class CursosController(CursoService cursoService) : ControllerBase
+public class CursosController(CursoService cursoService, InscripcionService inscripcionService) : ControllerBase
 {
     [HttpGet]
     public ActionResult<IReadOnlyList<Curso>> GetAll()
@@ -39,6 +39,15 @@ public class CursosController(CursoService cursoService) : ControllerBase
     public IActionResult Delete(int id)
     {
         return cursoService.Delete(id) ? NoContent() : CourseNotFound();
+    }
+
+    [HttpGet("{id:int}/estudiantes")]
+    public ActionResult<IReadOnlyList<EstudianteInscritoResponse>> GetStudents(int id)
+    {
+        var estudiantes = inscripcionService.GetEstudiantesDeCurso(id);
+        return estudiantes is null
+            ? CourseNotFound()
+            : Ok(estudiantes);
     }
 
     private static NotFoundObjectResult CourseNotFound() =>

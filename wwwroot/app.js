@@ -56,7 +56,162 @@ function showPets(pets) {
     }
 }
 
-if (page.dataset.page === "cursos") {
+if (page.dataset.page === "inscripciones") {
+    const form = document.querySelector("#enrollment-form");
+    const studentSelect = document.querySelector("#estudianteId");
+    const courseSelect = document.querySelector("#cursoId");
+    const capacityInfo = document.querySelector("#capacity-info");
+    const alreadyEnrolledMessage = document.querySelector("#already-enrolled");
+    const submitButton = document.querySelector("#enroll-button");
+    const successMessage = document.querySelector("#enrollment-success");
+    const errorMessage = document.querySelector("#enrollment-error");
+    const loadErrorMessage = document.querySelector("#enrollment-load-error");
+    let courses = [];
+    let capacityRequest = 0;
+
+    function showEnrollmentError(message) {
+        errorMessage.textContent = message;
+        errorMessage.hidden = false;
+        successMessage.hidden = true;
+    }
+
+    async function readApiError(response, fallback) {
+        try {
+            const problem = await response.json();
+            const validationErrors = Object.values(problem.errors ?? {}).flat();
+            return validationErrors.length > 0
+                ? validationErrors.join(" ")
+                : problem.detail || problem.title || fallback;
+        } catch {
+            return fallback;
+        }
+    }
+
+    function addOption(select, value, text) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = text;
+        select.append(option);
+    }
+
+    async function updateCapacity() {
+        const requestId = ++capacityRequest;
+        const courseId = Number(courseSelect.value);
+        const selectedCourse = courses.find(course => course.id === courseId);
+        const studentId = Number(studentSelect.value);
+        alreadyEnrolledMessage.hidden = true;
+        submitButton.disabled = true;
+
+        if (!selectedCourse) {
+            capacityInfo.textContent = "Selecciona un curso para consultar sus cupos.";
+            return;
+        }
+
+        capacityInfo.textContent = "Consultando cupos disponibles...";
+        try {
+            const response = await fetch(`/api/cursos/${courseId}/estudiantes`);
+            if (!response.ok) {
+                throw new Error(await readApiError(response, "No se pudieron consultar los cupos."));
+            }
+
+            const students = await response.json();
+            if (requestId !== capacityRequest) {
+                return;
+            }
+
+            const available = Math.max(0, selectedCourse.cupoMaximo - students.length);
+            capacityInfo.textContent = `Cupos disponibles: ${available} de ${selectedCourse.cupoMaximo}.`;
+
+            const alreadyEnrolled = students.some(student => student.estudianteId === studentId);
+            alreadyEnrolledMessage.hidden = !alreadyEnrolled;
+            submitButton.disabled = available === 0 || alreadyEnrolled || !studentId;
+        } catch (error) {
+            if (requestId !== capacityRequest) {
+                return;
+            }
+            capacityInfo.textContent = "No fue posible consultar los cupos.";
+            showEnrollmentError(error.message || "No fue posible consultar los cupos. Inténtalo nuevamente.");
+        }
+    }
+
+    async function loadOptions() {
+        loadErrorMessage.hidden = true;
+        try {
+            const [studentsResponse, coursesResponse] = await Promise.all([
+                fetch("/api/estudiantes"),
+                fetch("/api/cursos")
+            ]);
+
+            if (!studentsResponse.ok || !coursesResponse.ok) {
+                throw new Error("No se pudieron cargar los estudiantes y cursos.");
+            }
+
+            const [students, courseList] = await Promise.all([
+                studentsResponse.json(),
+                coursesResponse.json()
+            ]);
+            courses = courseList;
+            studentSelect.replaceChildren();
+            courseSelect.replaceChildren();
+            addOption(studentSelect, "", students.length ? "Selecciona un estudiante" : "No hay estudiantes registrados");
+            addOption(courseSelect, "", courses.length ? "Selecciona un curso" : "No hay cursos registrados");
+
+            for (const student of students) {
+                addOption(studentSelect, student.id, `${student.matricula} - ${student.nombre}`);
+            }
+
+            for (const course of courses) {
+                addOption(courseSelect, course.id, `${course.codigo} - ${course.nombre}`);
+            }
+
+            await updateCapacity();
+        } catch {
+            loadErrorMessage.textContent = "No fue posible cargar los estudiantes y cursos. Revisa que la API esté ejecutándose.";
+            loadErrorMessage.hidden = false;
+        }
+    }
+
+    studentSelect.addEventListener("change", updateCapacity);
+    courseSelect.addEventListener("change", updateCapacity);
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        errorMessage.hidden = true;
+        successMessage.hidden = true;
+
+        if (!studentSelect.value || !courseSelect.value) {
+            showEnrollmentError("Selecciona un estudiante y un curso.");
+            return;
+        }
+
+        submitButton.disabled = true;
+        try {
+            const response = await fetch("/api/inscripciones", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    estudianteId: Number(studentSelect.value),
+                    cursoId: Number(courseSelect.value)
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(await readApiError(response, "No se pudo completar la inscripción."));
+            }
+
+            const studentName = studentSelect.selectedOptions[0].textContent;
+            const courseName = courseSelect.selectedOptions[0].textContent;
+            successMessage.textContent = `${studentName} fue inscrito correctamente en ${courseName}.`;
+            successMessage.hidden = false;
+            await updateCapacity();
+        } catch (error) {
+            showEnrollmentError(error.message || "No fue posible conectar con la API. Inténtalo nuevamente.");
+            await updateCapacity();
+        }
+    });
+
+    loadOptions();
+} else if (page.dataset.page === "cursos") {
     const courseForm = document.querySelector("#course-form");
     const courseTable = document.querySelector("#courses-table");
     const courseStatus = document.querySelector("#courses-status");
